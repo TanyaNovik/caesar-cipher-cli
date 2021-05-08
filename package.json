@@ -14,5 +14,8 @@
   "bugs": {
     "url": "https://github.com/TanyaNovik/caesar-cipher/issues"
   },
-  "homepage": "https://github.com/TanyaNovik/caesar-cipher#readme"
+  "homepage": "https://github.com/TanyaNovik/caesar-cipher#readme",
+  "dependencies": {
+    "commander": "^7.2.0"
+  }
 }
