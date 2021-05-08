@@ -10,9 +10,8 @@ const readFile = async (fileName) => {
     }
   return fileContent;
   } else {
-    console.log('File is not exist!')
-    process.exit();
-    // throw new Error('File is not exist!')
+    console.error('File is not exist!')
+    process.exit(1);
   }
 };
 const writeFile = (fileName, content) => {
@@ -21,9 +20,8 @@ const writeFile = (fileName, content) => {
     writeableStream.write(content);
     writeableStream.end();
   } else {
-    console.log('File is not exist!')
-    process.exit();
-    // throw new Error('File is not exist!')
+    console.error('File is not exist!')
+    process.exit(1);
   }
 }
 module.exports =  {readFile, writeFile};

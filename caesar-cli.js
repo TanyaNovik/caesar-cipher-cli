@@ -10,10 +10,8 @@ program.parse(process.argv);
 
 const options = program.opts();
 if(!options.shift || !options.action) {
-  // throw new Error('Action or shift are not required!');
-  process.on('exit', function(code) {
-    return console.log(`About to exit with code ${code}`);
-  });
+  console.error('Action or shift are not required!')
+  process.exit(1);
 } else{
   caesarTaskWorker(options);
 }
