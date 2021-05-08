@@ -1,6 +1,6 @@
 const {writeFile} = require("./fileHelper");
 const {readFile} = require("./fileHelper");
-const {encrypt, decrypt} = require("./caesar");
+const {encrypt, decrypt} = require("./caesarCipher");
 const {consoleHelper} = require("./consoleHelper")
 
 const caesarTaskWorker = async (options) => {
