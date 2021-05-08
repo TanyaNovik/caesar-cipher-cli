@@ -1,20 +1,37 @@
-const {writeFile} = require("./fileWorker");
-const {readFile} = require("./fileWorker");
+const {writeFile} = require("./fileHelper");
+const {readFile} = require("./fileHelper");
 const {encrypt, decrypt} = require("./caesar");
-const caesarTaskWorker = (options) => {
-  let fileContent = readFile(options.input);
-  console.log(options)
-  console.log(fileContent)
-  if(options.action === 'encode'){
-    fileContent = encrypt(fileContent, options.shift);
-    console.log('encode', fileContent)
-  }
-  if(options.action === 'decode'){
-    fileContent = decrypt(fileContent, options.shift);
-    console.log('decode', fileContent)
-  }
-  console.log(fileContent)
-  writeFile(options.output, fileContent);
+const {consoleHelper} = require("./consoleHelper")
 
+const caesarTaskWorker = async (options) => {
+  let fileContent = '';
+  if(options.input) {
+    const input = await readFile(options.input);
+    fileContent = doDecodeEncode(options.action, input, options.shift);
+    doConsoleFileOutput(fileContent, options.output)
+  } else {
+    const rl = consoleHelper();
+    rl.on('line', (input) => {
+      fileContent = doDecodeEncode(options.action, input, options.shift);
+      doConsoleFileOutput(fileContent, options.output)
+    });
+  }
+}
+const doDecodeEncode = (action , fileContent, shift) => {
+  let result = '';
+  if(action === 'encode'){
+    result = encrypt(fileContent, shift);
+  }
+  if(action === 'decode'){
+    result = decrypt(fileContent, shift);
+  }
+  return result;
+}
+const doConsoleFileOutput = (fileContent, output) => {
+  if(output){
+    writeFile(output, fileContent);
+  } else {
+    console.log(fileContent);
+  }
 }
 module.exports = {caesarTaskWorker};
