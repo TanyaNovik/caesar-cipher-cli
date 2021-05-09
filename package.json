@@ -1,0 +1,21 @@
+{
+  "name": "caesar-cipher",
+  "version": "1.0.0",
+  "description": "Caesar cipher CLI tool",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TanyaNovik/caesar-cipher.git"
+  },
+  "author": "Tatsiana Novik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TanyaNovik/caesar-cipher/issues"
+  },
+  "homepage": "https://github.com/TanyaNovik/caesar-cipher#readme",
+  "dependencies": {
+    "commander": "^7.2.0"
+  }
+}
