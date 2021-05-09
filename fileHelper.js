@@ -1,27 +1,22 @@
 const fs = require("fs");
 const { Readable } = require('stream');
 
-const readFile = async (fileName) => {
+const readFileStream = async (fileName) => {
   if(fs.existsSync(fileName)){
-   let fileContent = '';
     const readStream = await fs.createReadStream(fileName, {encoding: 'utf8'});
-    for await (const chunk of readStream) {
-      fileContent +=chunk;
-    }
-  return fileContent;
+  return readStream;
   } else {
     console.error('File is not exist!')
     process.exit(1);
   }
 };
-const writeFile = (fileName, content) => {
+const writeFileStream = (fileName, content) => {
   if(fs.existsSync(fileName)) {
     let writeableStream = fs.createWriteStream(fileName, {flags: 'a'});
-    writeableStream.write(content);
-    writeableStream.end();
+    return writeableStream;
   } else {
     console.error('File is not exist!')
     process.exit(1);
   }
 }
-module.exports =  {readFile, writeFile};
+module.exports =  {readFileStream, writeFileStream};

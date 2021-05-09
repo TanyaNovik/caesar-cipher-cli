@@ -1,37 +1,26 @@
-const {writeFile} = require("./fileHelper");
-const {readFile} = require("./fileHelper");
+const {writeFileStream} = require("./fileHelper");
+const {readFileStream} = require("./fileHelper");
 const {encrypt, decrypt} = require("./caesarCipher");
-const {consoleHelper} = require("./consoleHelper")
+const {Transform} = require('stream');
 
 const caesarTaskWorker = async (options) => {
+  const dataTransformation = new Transform({
+    transform(chunk, _, cb) {
+      cb(null, options.action === 'encode' ? encrypt(chunk.toString(), options.shift) : decrypt(chunk.toString(), options.shift));
+    }
+  });
   let fileContent = '';
-  if(options.input) {
-    const input = await readFile(options.input);
-    fileContent = doDecodeEncode(options.action, input, options.shift);
-    doConsoleFileOutput(fileContent, options.output)
+  if (options.input) {
+    const readStream = await readFileStream(options.input);
+    const writeStream = options.output && await writeFileStream(options.output);
+      readStream
+        .pipe(dataTransformation)
+        .pipe(options.output ? writeStream : process.stdout)
   } else {
-    const rl = consoleHelper();
-    rl.on('line', (input) => {
-      fileContent = doDecodeEncode(options.action, input, options.shift);
-      doConsoleFileOutput(fileContent, options.output)
-    });
-  }
-}
-const doDecodeEncode = (action , fileContent, shift) => {
-  let result = '';
-  if(action === 'encode'){
-    result = encrypt(fileContent, shift);
-  }
-  if(action === 'decode'){
-    result = decrypt(fileContent, shift);
-  }
-  return result;
-}
-const doConsoleFileOutput = (fileContent, output) => {
-  if(output){
-    writeFile(output, fileContent);
-  } else {
-    console.log(fileContent);
+    const writeStream = options.output && await writeFileStream(options.output);
+    process.stdin
+      .pipe(dataTransformation)
+      .pipe(options.output ? writeStream : process.stdout)
   }
 }
 module.exports = {caesarTaskWorker};

@@ -1,6 +1,6 @@
 Run task:
 1. npm install
-2. node my_caesar_cli -a encode -s 7 -i "./input.txt" -o "./output.txt"
+2. node caesar-cli -a encode -s 7 -i "./input.txt" -o "./output.txt"
 
 -a or --action - can be only 'encode' or 'decode' 
 -s or --shift - a shift for decoding or encoding. can be only negative or positive numbers
